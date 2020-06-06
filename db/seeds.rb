@@ -2,6 +2,10 @@ user_1 = FactoryBot.create(:user)
 user_2 = FactoryBot.create(:user)
 user_3 = FactoryBot.create(:user)
 
+FactoryBot.create(:user, email: 'mail@mail.com', name: 'Carlos Augusto')
+
+FactoryBot.create(:product, campaign_name: 'Rice')
+
 donation_1 = FactoryBot.create(:donation, user: user_1)
 donation_2 = FactoryBot.create(:donation, user: user_1)
 donation_3 = FactoryBot.create(:donation, user: user_2)
