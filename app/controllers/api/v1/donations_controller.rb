@@ -15,37 +15,34 @@ class Api::V1::DonationsController < ApplicationController
 
   # POST /donations
   def create
-    @donation = Donation.new(donation_params)
+    user           = User.find_by(email: params['user_email'])
+    donation_value = params['donation_value']
+    money_donation = product_donation = nil
+
+    return if donation_value.negative?
+
+    if (params['donation_type'] == 'Money')
+      money_donation = Money.create(value: donation_value, payment_method: params['payment_method'])
+    elsif (params['donation_type'] == 'Product')
+      product_donation = Product.find_by(campaign_name: params['campaign_name'])
+      collected = product_donation.collected
+      product_donation.update!(collected: collected + donation_value)
+    else
+      return render json: { error: 'Invalid donation type' }
+    end
+
+    @donation = Donation.new(user: user, donatable: money_donation || product_donation)
 
     if @donation.save
-      render json: @donation, status: :created, location: @donation
+      render json: { donation: @donation, donation_info: money_donation || product_donation }
     else
       render json: @donation.errors, status: :unprocessable_entity
     end
-  end
-
-  # PATCH/PUT /donations/1
-  def update
-    if @donation.update(donation_params)
-      render json: @donation
-    else
-      render json: @donation.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /donations/1
-  def destroy
-    @donation.destroy
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_donation
       @donation = Donation.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def donation_params
-      params.require(:donation).permit(:user_id, :donatable_id, :donatable_type)
     end
 end
