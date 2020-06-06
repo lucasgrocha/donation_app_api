@@ -1,4 +1,4 @@
-class MoneyController < ApplicationController
+class Api::V1::MoneyController < ApplicationController
   before_action :set_money, only: [:show, :update, :destroy]
 
   # GET /money

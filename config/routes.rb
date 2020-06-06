@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
-  resources :comments
-  resources :money
-  resources :products
-  resources :donations
-  resources :users
+
+  namespace :api do
+    namespace :v1 do
+      resources :comments
+      resources :money
+      resources :donations
+      resources :users
+      resources :products
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
