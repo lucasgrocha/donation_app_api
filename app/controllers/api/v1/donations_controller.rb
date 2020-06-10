@@ -15,8 +15,8 @@ class Api::V1::DonationsController < ApplicationController
 
   # POST /donations
   def create
-    user           = User.find_or_create_by(email: params['user_email'], name: params['user_name'])
-    donation_value = params['donation_value'].to_i
+    user           = User.find_by(email: params['user_email'])
+    donation_value = params['donation_value'].to_f
     money_donation = product_donation = nil
 
     return if donation_value.negative?
