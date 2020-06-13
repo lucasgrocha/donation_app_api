@@ -3,7 +3,7 @@ class Api::V1::ProductsController < ApplicationController
 
   # GET /products
   def index
-    @products = Product.where("expiration_date > ?", DateTime.now)
+    @products = Product.where("expiration_date > ? AND collected < goal", DateTime.now).order(id: :asc)
 
     render json: @products
   end
