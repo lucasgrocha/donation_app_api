@@ -40,6 +40,12 @@ class Api::V1::DonationsController < ApplicationController
     end
   end
 
+  def get_donations_of_user
+    @user = User.find_by(email: params['user_email'])
+
+    render json: @user.donations unless @user.nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_donation
