@@ -1,4 +1,4 @@
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :donation
+  belongs_to :product, optional: true
 end

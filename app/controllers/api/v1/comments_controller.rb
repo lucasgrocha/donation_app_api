@@ -38,6 +38,22 @@ class Api::V1::CommentsController < ApplicationController
     @comment.destroy
   end
 
+  def get_comments_of_product
+    # binding.pry
+    @comments = Product.find_by(campaign_name: params['campaign_name']).comments
+
+    @user_and_comments = []
+
+    @comments.each do |k|
+      @user_and_comments << {
+        user_email: k.user.email,
+        comment: k.message
+      }
+    end
+
+    render json: @user_and_comments
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
