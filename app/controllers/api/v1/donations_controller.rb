@@ -43,7 +43,7 @@ class Api::V1::DonationsController < ApplicationController
   def get_donations_of_user
     @user = User.find_by(email: params['user_email'])
 
-    render json: @user.donations unless @user.nil?
+    render json: @user.donations.product_donation unless @user.nil?
   end
 
   private
