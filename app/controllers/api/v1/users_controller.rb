@@ -38,6 +38,12 @@ class Api::V1::UsersController < ApplicationController
     @user.destroy
   end
 
+  def validate_user
+    @user = User.find_by(email: params['user_email'])
+
+    render json: { valid: !@user.nil? }
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
